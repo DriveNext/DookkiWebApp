@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Quét QR thành công";
+}
+
+<h3 class="text-center t-bold">Quét QR hóa đơn</h3>
+
+<section style="border-top: 1px solid #DADADA;">
+    <div class="text-center">
+        <img style=" margin-top: 30px;" src="~/Assets/Images/icon/success.png" />
+        <h3 class="t-bold">Bạn đã nhận điểm tích lũy thành công!</h3>
+    </div>
+</section>
+<script>
+    setTimeout(function () {
+        window.location.href = '@Url.Action("InforPoint", "Account")';
+    }, 2000);
+</script>

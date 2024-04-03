@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Thông báo";
+}
+
+<h3 class="text-center t-bold">Thông báo của bạn</h3>
+
+<section id="notification">
+    <div class="list-group">
+        @foreach(var noti in Model) 
+        {
+        <div class="list-group-item">
+            <div class="noti_title t-bold">
+                @noti.TieuDe
+            </div>
+            <div class="noti_content">
+                @noti.ChiTiet
+            </div>
+            <div class="time_noti">@String.Format("{0:dd/MM/yyyy - HH:mm}", noti.ThoiGian)</div>
+        </div>
+        }
+    </div>
+</section>

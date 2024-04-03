@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "Thông Tin Đặt Bàn";
+}
+
+<h3 class="text-center t-bold">Thông tin đặt bàn</h3>
+
+<section id="list_dookki">
+    <div class="list-group">
+        <div class="list-group-item" style="border-bottom: none; border-top: 1px solid #DADADA">
+            <div class="chinhanh_dookki d-flex">
+                <img style="width: 25%;" src="~/Assets/Images/dookki/dookki_voucher.png" />
+                <div class="infor_dookki">
+                    <input type="text" id="macn" hidden value="@Model.MaCN" />
+                    <div class="tenchinhanh">
+                        @Model.TenCN
+                    </div>
+                    <div class="diachi">
+                        @Model.DiaChi
+                    </div>
+                    <div class="hotline">
+                        Hotline: @Model.Hotline
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="signin" style="border-top: none; padding-top: 0">
+        <div class="container">
+            <input type="text" id="makh" hidden value="@ViewBag.MaKH" />
+            <div class="form-group">
+                <label class="control-label">Thời gian đặt bàn<span>*</span></label>
+                <input class="form-control" type="date" name="date_booking" id="date_booking" placeholder="Chọn ngày" />
+                <input class="form-control" type="text" id="time_booking" name="time_booking" placeholder="Chọn thời gian" style="margin-top: 15px;" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Số người<span>*</span></label>
+                <input class="form-control" type="text" name="amount" id="amount" placeholder="Nhập số người" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Họ tên<span>*</span></label>
+                <input class="form-control" type="text" name="name" id="name" placeholder="Nhập họ tên" value="@ViewBag.Hoten" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Số điện thoại<span>*</span></label>
+                <input class="form-control" type="text" name="phone" id="phone" placeholder="Nhập số điện thoại" value="@ViewBag.SDT" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Email<span>*</span></label>
+                <input class="form-control" type="text" name="email" id="email" placeholder="Nhập Email" value="@ViewBag.Email" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Ghi chú<span>*</span></label>
+                <input class="form-control" type="text" name="note" id="note" placeholder="Nhập ghi chú (nếu có)" />
+            </div>
+
+            <div class="form-group" style="text-align: center; margin-top: 15px; margin-bottom: 120px;">
+                <button onclick="Booking()" class="btn_signin t-bold" style="background-color: #3C2414;">Đặt Bàn Ngay</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        var timepicker = new TimePicker('time_booking', {
+            lang: 'en',
+            theme: 'dark'
+        });
+        timepicker.on('change', function (evt) {
+
+            var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+            evt.element.value = value;
+
+        });
+    </script>
+    <script>
+        function Booking() {
+            var macn = document.getElementById('macn').value;
+            var datebooking = document.getElementById('date_booking').value;
+            var timebooking = document.getElementById('time_booking').value;
+            var amount = document.getElementById('amount').value;
+            var name = document.getElementById('name').value;
+            var phone = document.getElementById('phone').value;
+            var email = document.getElementById('email').value;
+            var note = document.getElementById('note').value;
+
+            $.ajax({
+                url: '/Account/Booking',
+                method: 'post',
+                data: {
+                    makh: @ViewBag.MaKH,
+                    macn: macn,
+                    name: name,
+                    datebooking: datebooking,
+                    timebooking: timebooking,
+                    amount: amount,
+                    phone: phone,
+                    email: email,
+                    note: note,
+                },
+                success: function (response) {
+                    if (response.Success) {
+                        alert("Đặt Bàn Thành Công!")
+                        setTimeout(function () {
+                            window.location.href = '@Url.Action("ActivityHis", "Account")';
+                        }, 1000);
+                    }
+                    else {
+                        alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                    }
+
+                }
+            });
+        }
+    </script>
+</section>
+

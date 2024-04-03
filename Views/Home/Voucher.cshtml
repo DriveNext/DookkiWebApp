@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Voucher";
+}
+
+<h3 class="text-center t-bold">Voucher Dookki</h3>
+
+<section id="list_voucher_dookki">
+    <div class="container form_change_voucher" id="form_change_voucher">
+        <div class="form_voucher text-center ">
+            <div>
+                <h3 class="t-bold">Xác nhận đổi điểm</h3>
+                <input type="text" hidden id="mavoucher"/>
+                <span id="tieudevoucher"></span>
+                <div style="margin-top: 40px; display: flex; justify-content: space-evenly;">
+                    <button onclick="cancelchangevoucher()" class="btn btn_submit_scan" style="background: none; border: 2px solid #F26531; color: #F26531;">Hủy</button>
+                    <button onclick="submit_exchange_voucher()" class="btn btn_submit_scan" style="background: #F26531; color: white;">Đồng Ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="list-group">
+        @foreach (var voucher in Model)
+        {
+        <div class="list-group-item" style="border: none">
+            <div class="list_voucher d-flex">
+                <img style="width: 25%;" src="~/Assets/Images/dookki/dookki_voucher.png" />
+                <div class="infor_voucher">
+                    <div class="tieudevouhcer">
+                        @voucher.TieuDe
+                    </div>
+                    <div class="chitietvoucher">
+                        @voucher.ChiTiet
+                    </div>
+                    <div class="dieukienvoucher">
+                        Hóa đơn tối thiểu: @(voucher.DieuKien > 0 ? String.Format("{0:0,0}", voucher.DieuKien) : "0") đồng
+                    </div>
+                </div>
+                @if (voucher.Diem > 0)
+                {
+                    <text><button onclick='call_change_voucher(@voucher.MaVoucher, "@voucher.TieuDe", @voucher.Diem)' class="btn btn-submit">Đổi</button></text>
+                }
+                else
+                {
+                    <text><button onclick="save_voucher(@voucher.MaVoucher)" class="btn btn-submit">Lưu</button></text>
+                }
+            </div>
+        </div>        
+        }
+    </div>
+    <script>
+        function call_change_voucher(mavoucher, tieude, diemvoucher) {
+            var form_voucher = document.getElementById("form_change_voucher");
+            if (form_voucher.style.display != "block") {
+                document.getElementById("tieudevoucher").innerHTML = 'Bạn có muốn đổi ' + diemvoucher + ' điểm lấy "' + tieude + '" không ?';
+                document.getElementById("mavoucher").value = mavoucher;
+                form_voucher.style.display = "block";
+                element2.style.display = "block";
+            }
+        }
+        function cancelchangevoucher() {
+            document.getElementById("form_change_voucher").style.display = "none";
+            element2.style.display = "none";
+        }
+        function submit_exchange_voucher() {
+            var mavoucher = document.getElementById("mavoucher").value;
+
+            $.ajax({
+                url: '/Account/ExchangeVoucher',
+                method: 'post',
+                data: {
+                    mavoucher: mavoucher,
+                },
+                success: function (response) {
+                    if (response.Success) {
+                        alert("Bạn đã đổi voucher thành công!")
+                        setTimeout(function () {
+                            window.location.href = '@Url.Action("PersonalVoucher", "Account")';
+                        }, 1000);
+                    }
+                    else {
+                        alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                    }
+
+                }
+            });
+        }
+    </script>
+</section>

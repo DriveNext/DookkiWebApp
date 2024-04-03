@@ -1,0 +1,87 @@
+﻿@model DookkiWebApp.Models.DatBan
+@{
+    ViewBag.Title = "Quét mã QR Hóa Đơn";
+}
+
+<h3 class="text-center t-bold">Quét QR hóa đơn</h3>
+
+<section id="detail_booking">
+    <div class="container">
+        <h3 class="text-center t-bold">Thông tin hóa đơn</h3>
+        <input type="text" hidden value="@Model.MaDatBan" id="idBooking" />
+        <input type="text" hidden value="@ViewBag.MaKH" id="idCustomer" />
+        <input type="text" hidden value="@(Model.TongTien * ViewBag.PhanTramTichDiem / 100)" id="point" />
+        <table style="width: 100%;">
+            <tr>
+                <th>Mã hóa đơn:</th>
+                <td>@Model.MaDatBan</td>
+            </tr>
+            <tr>
+                <th>Thời gian thanh toán:</th>
+                <td>@String.Format("{0: HH:mm - dd/MM/yyyy}", Model.ThoiGian)</td>
+            </tr>
+            <tr>
+                <th>Chi nhánh:</th>
+                <td>@Model.ChiNhanh.TenCN</td>
+            </tr>
+            <tr>
+                <th>Giá trị hóa đơn:</th>
+                <td>@String.Format("{0:0,0}", Model.TongTien) đồng</td>
+            </tr>
+            <tr class="t-bold" style="color: #F26531;">
+                <th style="font-weight: bold;">Điểm tích lũy<br />(Giá trị * @ViewBag.PhanTramTichDiem)</th>
+                <td>
+                    @String.Format("{0:0,0}", (Model.TongTien * ViewBag.PhanTramTichDiem / 100)) điểm
+                </td>
+            </tr>
+            @if (Model.TrangThai != 1)
+            {
+                <text>
+                    <tr class="text-center t-bold">
+                        <th class="text-center" style="padding-top: 50px;">
+                            <button onclick="window.location.href='@Url.Action("Index", "Home")'" class="btn btn_submit_scan" style="background: none; border: 2px solid #F26531; color: #F26531;">Hủy</button>
+                        </th>
+                        <td style="padding: 50px 0 10px;">
+                            <button onclick="submit_accumulate_points()" class="btn btn_submit_scan" style="background: #F26531; color: white;">Đồng Ý</button>
+                        </td>
+                    </tr>
+                </text>
+            }
+            else
+            {
+                <text><h3 class="text-center t-bold text-success">Hóa đơn đã được tích điểm!</h3></text>
+            }
+        </table>
+    </div>
+    <script>
+        function submit_accumulate_points() {
+            var idBooking = document.getElementById('idBooking').value;
+            var idCustomer = document.getElementById('idCustomer').value;
+            var point = document.getElementById('point').value;
+
+            $.ajax({
+                url: '/Account/accumulatePoints',
+                method: 'post',
+                data: {
+                    idBooking: idBooking,
+                    idCustomer: idCustomer,
+                    point: point,
+                },
+                success: function (response) {
+                    if (response.Error) {
+                        alert("Hóa đơn không tồn tại!")
+                    }
+                    else {
+                        if (response.Success) {
+                            window.location.href = '@Url.Action("accumulatePointSuccess", "Account")';
+                        }
+                        else {
+                            alert("Hóa đơn đã được tích điểm!")
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</section>
+

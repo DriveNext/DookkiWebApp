@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="~/Content/timepicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/timepicker.min.js"></script>
+    <script src="~/Scripts/qr_packed.js"></script>
+    <style>
+        .qrcode-text-btn {
+            display: inline-block;
+            background: url('../../Assets/Images/icon/scan_qr.png') 50% 50% no-repeat;
+            height: 27px;
+            width: 2.7em;
+            cursor: pointer;
+        }
+        .qrcode-text-btn > input[type=file] {
+            position: absolute;
+            overflow: hidden;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+        }    
+    </style>
+</head>
+<body class="visible-xs">
+    <div id="bg-sg" onclick="closeBoxContact()"></div>
+    <div class="container contactinfo" id="contactinfo">
+        <div class="phone text-center t-bold">
+            <a href="tel:19008039">Gọi ngay: 1900 8039</a>
+        </div>
+    </div>
+    <div class="social-fixed-mb visible-xs">
+        <ul class="master-wanda d-flex">
+            <li>
+                <a href="@Url.Action("Index", "Home")"><img src="~/Assets/Images/icon/home.png"><span>Trang chủ</span></a>
+            </li>
+            <li>
+                <a href="@Url.Action("Notification", "Home")"><img src="~/Assets/Images/icon/notification.png"><span>Thông báo</span></a>
+            </li>
+            <li>
+                <a href="">
+                    <label class="qrcode-text-btn">
+                        <input type="file" accept="image/*" capture="enviroment" onchange="openQRCamera(this);" tabindex="-1" />
+                    </label>
+                    <span>Quét QR</span>
+                </a>
+            </li>
+            <li onclick="myFunction()">
+                <a><img src="~/Assets/Images/icon/support.png"><span>Hỗ trợ</span></a>
+            </li>
+            <li>
+                <a href="@Url.Action("PersonalAccount", "Account")"><img src="~/Assets/Images/icon/account.png"><span>Tài khoản</span></a>
+            </li>
+        </ul>
+    </div>
+    @RenderBody()
+
+    <script>
+        function openQRCamera(node) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                node.value = "";
+                qrcode.callback = function (res) {
+                    if (res instanceof Error) {
+                        alert("Không tìm thấy mã QR. Hãy đảm bảo qr nằm trong khung hình của bạn")
+                    }
+                    else {
+                        window.location.href = res;
+                    }
+                }
+                qrcode.decode(reader.result);
+            }
+            reader.readAsDataURL(node.files[0]);
+        }
+    </script>
+
+    <script>
+        var element1 = document.getElementById("contactinfo");
+        var element2 = document.getElementById("bg-sg");
+
+        function myFunction() {
+            if (element1.style.display == "block" && element2.style.display == "block") {
+                element1.style.display = "none";
+                element2.style.display = "none";
+            }
+            else {
+                element1.style.display = "block";
+                element2.style.display = "block";
+            }
+        }
+        function closeBoxContact() {
+            element1.style.display = "none";
+            element2.style.display = "none";
+            document.getElementById("form_change_voucher").style.display = "none";
+        }
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,48 @@
+﻿@model DookkiWebApp.ViewModels.FindDookkiViewModel
+
+@{
+    ViewBag.Title = "Tìm nhà hàng";
+}
+
+<h3 class="text-center t-bold">Tìm nhà hàng</h3>
+
+<section id="list_dookki">    
+    <div class="list-group">
+        @using (Html.BeginForm("FindDookki", "Home", FormMethod.Get))
+        {
+            <div class="select_city">
+                <select class="form-control" name="matp">
+                    <option value="0">Chọn vị trị</option>
+                    @foreach (var listcity in Model.listTP)
+                    {
+                        <option value="@listcity.MaTP" @if(listcity.MaTP == ViewBag.MaTP){<text>selected="selected"</text>} >@listcity.TenTP</option>
+                    }
+                </select>
+            </div>
+            <div class="searchBranch d-flex">
+                <input class="form-control" name="searchString" type="text" placeholder="Nhập chi nhánh..." />
+                <button type="submit" class="btn btn-submit">TÌM</button>
+            </div>
+        }
+        @foreach (var listdookki in Model.listCN)
+        {
+        <div class="list-group-item">
+            <a href="@Url.Action("InforBranchDookki", "Home", new { macn = listdookki.MaCN })" class="chinhanh_dookki d-flex">
+                <img style="width: 25%;" src="~/Assets/Images/dookki/dookki_voucher.png" />
+                <div class="infor_dookki">
+                    <div class="tenchinhanh">
+                        @listdookki.TenCN
+                    </div>
+                    <div class="diachi">
+                        @listdookki.DiaChi
+                    </div>
+                    <div class="hotline">
+                        Hotline: @listdookki.Hotline
+                    </div>
+                </div>
+            </a>
+        </div>
+        }
+    </div>
+</section>
+

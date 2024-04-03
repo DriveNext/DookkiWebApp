@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "ChangePass";
+}
+
+<h3 class="text-center t-bold">Đổi mật khẩu</h3>
+
+<section id="signin">
+    <div class="container">
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+            <div class="form-group">
+                <label class="control-label">Nhập mật khẩu cũ</label>
+                <input class="form-control" type="text" name="oldpassword" placeholder="Nhập mật khẩu cũ" />
+                <div class="error_input">
+                    @ViewBag.LoiNhap
+                    @ViewData["Loi1"]
+                </div>                
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Nhập mật khẩu mới</label>
+                <input class="form-control" type="password" name="newpassword" placeholder="Nhập mật khẩu mới" />
+                <div class="error_input">
+                    @ViewData["Loi2"]
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Xác nhận mật khẩu</label>
+                <input class="form-control" type="password" name="retypepass" placeholder="Nhập lại mật khẩu mới" />
+                <div class="error_input">
+                    @ViewData["Loi3"]
+                </div>
+            </div>
+
+            <div class="form-group" style="text-align: center; margin: 25px 0;">
+                <button class="btn_signin t-bold" type="submit">Đổi mật khâu</button>
+            </div>
+        }
+    </div>
+</section>
+
+

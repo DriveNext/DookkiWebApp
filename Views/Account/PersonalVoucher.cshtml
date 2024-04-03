@@ -1,0 +1,123 @@
+﻿@model IEnumerable<DookkiWebApp.Models.KH_Voucher>
+
+@{
+    ViewBag.Title = "Voucher của tôi";
+}
+
+<style>
+    #list_voucher_dookki ul li {
+        width: 50%;
+        text-align: center;
+    }
+
+        #list_voucher_dookki ul li a {
+            color: #757575;
+        }
+
+    #list_voucher_dookki .btn:hover {
+        color: #F26531;
+        text-decoration: none;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover {
+        border: 2px solid #F26531;
+        border-top-color: transparent;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        color: #F26531;
+    }
+</style>
+
+<div id="bg-black" onclick="closeBoxQRVoucher()"></div>
+<h3 class="text-center t-bold">Voucher của tôi</h3>
+
+<section id="list_voucher_dookki" style="border: none;">
+    <div class="container form_change_voucher" id="scan_qr_my_voucher" style="display: none;">
+        <div class="form_voucher text-center " style="height: 290px;">
+            <h3 class="t-bold" id="title_my_voucher"></h3>
+            <div id="img_qr_voucher">
+
+            </div>
+            <h4 id="id_my_voucher" class="t-bold"></h4>
+            <span style="font-size: 60%">*Xin vui lòng đưa mã QR này cho nhân viên để tiến hành giảm giá</span>
+        </div>
+    </div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#validity_voucher">Voucher của tôi</a></li>
+        <li><a data-toggle="tab" href="#used_voucher">Voucher đã dùng</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="validity_voucher" class="tab-pane fade in active">
+            <div class="list-group">
+                @foreach (var voucher in Model)
+                {
+                    if (voucher.TrangThai == 0)
+                    {
+                        <div class="list-group-item" style="border: none">
+                            <div class="list_voucher d-flex">
+                                <img style="width: 25%;" src="~/Assets/Images/dookki/dookki_voucher.png" />
+                                <div class="infor_voucher">
+                                    <div class="tieudevouhcer">
+                                        @voucher.Voucher.TieuDe
+                                    </div>
+                                    <div class="chitietvoucher">
+                                        @voucher.Voucher.ChiTiet
+                                    </div>
+                                    <div class="dieukienvoucher">
+                                        Hóa đơn tối thiểu: @(voucher.Voucher.DieuKien > 0 ? String.Format("{0:0,0}", voucher.Voucher.DieuKien) : "0") đồng
+                                    </div>
+                                </div>
+                                <button class="btn btn_validity_voucher" onclick='use_voucher("@voucher.Voucher.TieuDe", "@voucher.MaQR", @voucher.ID)'>Dùng ngay</button>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <script>
+            var scan_qr_my_voucher = document.getElementById("scan_qr_my_voucher");
+            var bg_black = document.getElementById("bg-black");
+            function use_voucher(title_my_voucher, img, id_my_voucher) {
+                if (scan_qr_my_voucher.style.display != "block") {
+                    document.getElementById("title_my_voucher").innerHTML = title_my_voucher;
+                    document.getElementById("img_qr_voucher").innerHTML = "<img style='width:40%' src='/Assets/Images/QRCodeVoucher/" + img + "' />";
+                    document.getElementById("id_my_voucher").innerHTML = "Mã: " + id_my_voucher;
+                    scan_qr_my_voucher.style.display = "block";
+                    bg_black.style.display = "block";
+                }
+            }
+            function closeBoxQRVoucher() {
+                bg_black.style.display = "none";
+                scan_qr_my_voucher.style.display = "none";
+            }
+        </script>
+        <div id="used_voucher" class="tab-pane fade">
+            <div class="list-group">
+                @foreach (var used_voucher in Model)
+                {
+                    if (used_voucher.TrangThai == 1)
+                    {
+                        <div class="list-group-item" style="border: none">
+                            <div class="list_voucher d-flex">
+                                <img style="width: 25%;" src="~/Assets/Images/dookki/dookki_voucher.png" />
+                                <div class="infor_voucher">
+                                    <div class="tieudevouhcer">
+                                        @used_voucher.Voucher.TieuDe
+                                    </div>
+                                    <div class="chitietvoucher">
+                                        @used_voucher.Voucher.ChiTiet
+                                    </div>
+                                    <div class="dieukienvoucher">
+                                        Hóa đơn tối thiểu: @(used_voucher.Voucher.DieuKien > 0 ? String.Format("{0:0,0}", used_voucher.Voucher.DieuKien) : "0") đồng
+                                    </div>
+                                </div>
+                                <button class="btn btn_used_voucher" disabled>Đã sử dụng</button>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "Tài khoản cá nhân";
+}
+
+<h3 class="text-center t-bold">Tài khoản cá nhân</h3>
+
+<section id="account_info">
+    <div class="list-group">
+        <div class="list-group-item">
+            <div class="summary_info d-flex">
+                <img src="~/Assets/Images/customer/avt.jpg" />
+                <span style="margin: 10px 0; font-weight: bold;">@ViewBag.HoTen</span>
+            </div>
+            <div class="d-flex rank_info">
+                <span style="margin-left: 30px">Mã KH: @ViewBag.MaKH</span>
+                |
+                @if (ViewBag.TongChiTieu < 3000000)
+                {
+                    <text><span>Thành viên thân thiết</span></text>
+                }
+                else if (ViewBag.TongChiTieu >= 3 && ViewBag.TongChiTieu < 5000000)
+                {
+                    <text><span>Thành viên Bạc</span></text>
+                }
+                else if (ViewBag.TongChiTieu >= 5000000 && ViewBag.TongChiTieu < 10000000)
+                {
+                    <text><span>Thành viên Vàng</span></text>
+                }
+                else
+                {
+                    <text><span>Thành viên Kim Cương</span></text>
+                }
+            </div>
+        </div>
+        <div class="list-group-item">
+            <div class="list_info t-bold d-flex">
+                <a href="@Url.Action("Information", "Account")">
+                    <img src="~/Assets/Images/icon/information.png" />
+                    Thông tin cá nhân
+                </a>
+            </div>
+        </div>
+        <div class="list-group-item">
+            <div class="list_info t-bold d-flex">
+                <a href="@Url.Action("InforPoint", "Account")">
+                    <img src="~/Assets/Images/icon/point.png" />
+                    Điểm tích lũy
+                </a>
+            </div>
+        </div>
+        <div class="list-group-item">
+            <div class="list_info t-bold d-flex">
+                <a href="@Url.Action("PersonalVoucher", "Account")">
+                    <img src="~/Assets/Images/icon/voucher.png" />
+                    Voucher
+                </a>
+            </div>
+        </div>
+        <div class="list-group-item">
+            <div class="list_info t-bold d-flex">
+                <a href="@Url.Action("ActivityHis", "Account")">
+                    <img src="~/Assets/Images/icon/acti_history.png" />
+                    Lịch sử hoạt động
+                </a>
+            </div>
+        </div>
+        <div class="list-group-item">
+            <div class="list_info t-bold d-flex">
+                <a href="@Url.Action("Statistical", "Account")">
+                    <img src="~/Assets/Images/icon/statistical.png" />
+                    Thống kê chi tiêu
+                </a>
+            </div>
+        </div>
+        <div class="list-group-item">
+            <div class="list_info t-bold d-flex">
+                <a href="@Url.Action("ChangePass", "Account")">
+                    <img src="~/Assets/Images/icon/change_pass.png" />
+                    Đổi mật khẩu
+                </a>
+            </div>
+        </div>
+        <div class="list-group-item">
+            <div class="list_info t-bold d-flex">
+                <a href="@Url.Action("SignOut", "Account")">
+                    <img src="~/Assets/Images/icon/logout.png" />
+                    Đăng xuất
+                </a>
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.Success != null)
+    {
+        <text>
+            <div class="container noti_success" id="noti_success">
+                <div class='noti_decor text-center t-bold'>
+                    <span>
+                        @ViewBag.Success
+                    </span>
+                </div>
+            </div>
+        </text>
+    }
+</section>
+

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<DookkiWebApp.Models.TichDiem>
+@{
+    ViewBag.Title = "Thông tin điểm tích lũy";
+}
+
+<h3 class="text-center t-bold">Thông tin điểm tích lũy</h3>
+
+<section id="inforpoint">
+    <div class="container" style="padding: 20px 30px;">
+        <div class="info_point d-flex">
+            <div class="aaa t-bold" style="font-size: 2rem;">
+                @ViewBag.HoTen
+            </div>
+            <div class="aaa" style="font-size: 1.2rem;">
+                @if (ViewBag.TongChiTieu < 3000000)
+                {
+                    <text>Thành viên thân thiết</text>
+                }
+                else if (ViewBag.TongChiTieu >= 3 && ViewBag.TongChiTieu < 5000000)
+                {
+                    <text>Thành viên Bạc</text>
+                }
+                else if (ViewBag.TongChiTieu >= 5000000 && ViewBag.TongChiTieu < 10000000)
+                {
+                    <text>Thành viên Vàng</text>
+                }
+                else
+                {
+                    <text>Thành viên Kim Cương</text>
+                }
+            </div>
+            <div class="abc d-flex">
+                <div class="owner_point">
+                    <span class="t-bold">Điểm tích lũy:</span>
+                    @String.Format("{0:0,0}", @ViewBag.Diem) điểm
+                </div>
+                <div class="total_bill">
+                    <span class="t-bold">Tổng hóa đơn:</span>
+                    @String.Format("{0:0,0}", @ViewBag.TongChiTieu) đồng
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h3 class="t-bold">Lịch sử đổi điểm tích lũy:</h3>
+        <div class="list-group">
+            @foreach (var item in Model)
+            {
+                <div class="list-group-item">
+                    <div class="noti_point_left">
+                        <div class="noti_point t-bold">
+                            @item.TieuDe
+                        </div>
+                        <div class="value_point">
+                            @item.ChiTiet
+                        </div>
+                        <div class="time_get">Thời gian: @String.Format("{0:H:mm - dd/MM/yyyy}", item.ThoiGian)</div>
+                    </div>
+                    <div class="noti_point_right">
+                        <span class='@(item.TrangThai == 0 ? "plus_point" : "minus_point")'>                            
+                             @(item.TrangThai == 0 ? "+" : "-")@item.Diem  điểm
+                        </span>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>

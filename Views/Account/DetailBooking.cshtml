@@ -1,0 +1,61 @@
+﻿@model DookkiWebApp.Models.DatBan
+@{
+    ViewBag.Title = "Lịch sử đặt bàn";
+}
+
+<h3 class="text-center t-bold">Lịch sử đặt bàn</h3>
+
+<section id="detail_booking">
+    <div class="container">
+        <h3 class="t-bold">Chi tiết</h3>
+    
+        <table style="width: 100%; font-size: 80%;">
+            <tr>
+                <th>Mã đặt bàn:</th>
+                <td>@Model.MaDatBan</td>
+            </tr>
+            <tr>
+                <th>Chi nhánh:</th>
+                <td>@Model.ChiNhanh.TenCN</td>
+            </tr>
+            <tr>
+                <th>Thời gian đặt bàn:</th>
+                <td>@String.Format("{0: HH:mm - dd/MM/yyyy}", Model.ThoiGian)</td>
+            </tr>
+            <tr>
+                <th>Số người:</th>
+                <td>@Model.SoNguoi</td>
+            </tr>
+            <tr>
+                <th>Họ tên:</th>
+                <td>@Model.HoTen</td>
+            </tr>
+            <tr>
+                <th>Số điện thoại:</th>
+                <td>@Model.SDT</td>
+            </tr>
+            <tr>
+                <th>Enail:</th>
+                <td>@Model.Email</td>
+            </tr>
+            <tr>
+                <th>Tổng hóa đơn:</th>
+                <td>@String.Format("{0:0,0}", Model.TongTien)đ</td>
+            </tr>
+            <tr>
+                <th>Ghi chú:</th>
+                <td>@Model.GhiChu</td>
+            </tr>
+        </table>
+        <div class="text-center">
+            <img style="width: 50%" src="~/Assets/Images/QRCodeBooking/@Model.MaQR" />
+        </div>
+
+        @if(Model.TrangThai == 1)
+         {
+            <text><h3 class="t-bold text-success text-center">Hóa đơn đã được tích điểm!</h3></text>
+         }
+    </div>
+</section>
+
+

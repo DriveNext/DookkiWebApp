@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Trang chủ";
+}
+<header id="dookki_header">
+    <section id="header-top">
+        <div class="container">
+            <img src="~/Assets/Images/dookki/logo_dookki.png" title="dookki_logo" />
+        </div>
+    </section>
+    <section id="header-middle">
+        <div class="container" style="border-radius: 10px; padding: 10px 15px; background-color: #584a4a73; ">
+            <div class="info_account">
+                <div class="info_name">
+                    <img src="~/Assets/Images/icon/account.png" width="35" />
+                    @(Session["Taikhoan"] != null ? (User.Identity.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Tài khoản") : "Tài Khoản")
+                </div>
+                <div class="info_point">
+                    <img src="~/Assets/Images/icon/point_2.png" />
+                    <div class="abc">
+                        <div>
+                            Điểm tích lũy
+                        </div>                        
+                        @(ViewBag.Diemtichluy != null ? String.Format("{0:0,0}", ViewBag.Diemtichluy) : "0" ) điểm
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="header-bottom">
+        <ul class="selection d-flex">
+            <li>
+                <a href="@Url.Action("FindDookki", "Home")">
+                    <div class="border_icon">
+                        <img src="~/Assets/Images/icon/booking.png">
+                    </div>
+                    <span>Đặt bàn</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("FindDookki", "Home")">
+                    <div class="border_icon">
+                        <img src="~/Assets/Images/icon/find_dookki.png">
+                    </div>
+                    <span>Tìm nhà hàng</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("InforPoint", "Account")">
+                    <div class="border_icon">
+                        <img src="~/Assets/Images/icon/point.png">
+                    </div>
+                    <span>Điểm tích lũy</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Voucher", "Home")">
+                    <div class="border_icon">
+                        <img src="~/Assets/Images/icon/voucher.png">
+                    </div>
+                    <span>Voucher</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+</header>
+<div class="container body-content">
+    <section id="news">
+        <div class="news-top">
+            <p style="font-size: 2.4rem;">Tin tức nổi bật</p>
+            <p style="color: #F26531; font-size: 1.5rem">Tất cả</p>
+        </div>
+        <div class="news-middle">
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="~/Assets/Images/news/news_01.png" />
+                    <p>
+                        Khai trương chi nhánh Dookki Long An
+                    </p>
+                </div>
+                <div class="col-md-12">
+                    <img src="~/Assets/Images/news/news_02.png" />
+                    <p>
+                        Quầy mì Dookki miễn phí - Bạn đã thử chưa?
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

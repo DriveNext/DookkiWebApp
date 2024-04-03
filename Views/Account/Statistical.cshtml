@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Thống kê";
+}
+
+<h3 class="text-center t-bold">Thống kê chi tiêu</h3>
+
+<section id="statistical" style="padding: 30px 25px; border-top: 1px solid #DADADA;">
+    <div style="border-radius: 10px; background-color: #F5F5F5; color: white">
+        <div style="padding: 30px 15px; background-color: #F26531; border-radius: 20px;">
+            <h5 style="margin-top: 0;">Tổng hóa đơn</h5>
+            <h3 style="font-size: 130%; margin-bottom: 0;" class="t-bold">@String.Format("{0:0,0}", ViewBag.TongChiTieu) đồng</h3>
+        </div>        
+        <div class="thongke">
+            <div class="statistical_month">
+                <span style="color: #F26531;">Theo tháng</span>
+                <div class="d-flex" style="justify-content: space-between;margin-top: 10px;">
+                    <input type="text" class="form-control" id="month_statistical_1" placeholder="Nhập tháng" />
+                    <input type="text" class="form-control" id="year_statistical_1" placeholder="Nhập năm" />
+                    <button class="btn btn-submit" onclick="statistical_month()">Thống kê</button>
+                </div>
+                <div id="info_statistical_1">
+
+                </div>
+            </div>
+            <div class="statistical_year d-flex">
+                <span style="color: #F26531;">Theo năm</span>
+                <input type="text" class="form-control" id="year_statistical" placeholder="Nhập năm" />
+                <button class="btn btn-submit" onclick="statistical_year()">Thống kê</button>
+
+                <div id="info_statistical">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function statistical_month() {
+            var month_statistical_1 = document.getElementById("month_statistical_1").value;
+            var year_statistical_1 = document.getElementById("year_statistical_1").value;
+            var info_statistical_1 = document.getElementById("info_statistical_1");
+            $.ajax({
+                url: '/Account/Statistical_month',
+                method: 'post',
+                data: {
+                    month: month_statistical_1,
+                    year: year_statistical_1,
+                },
+                success: function (response) {
+                    if (response.TongChiTieu != null) {
+                        info_statistical_1.innerHTML = "<span style='color: black; font-size: 80%;'>Tổng hóa đơn của bạn trong tháng " + month_statistical_1 + " năm " + year_statistical_1 + " là: </span><br/><h3 class='t-bold text-center' style='color: #F26531;'>" + response.TongChiTieu + "</h3>";
+                    }
+                    else {
+                        alert("Không có giao dịch trong thời gian này.")
+                    }
+
+                }
+            });
+        }
+        function statistical_year() {
+            var year_statistical = document.getElementById("year_statistical").value;
+            var info_statistical = document.getElementById("info_statistical");
+            $.ajax({
+                url: '/Account/Statistical_year',
+                method: 'post',
+                data: {
+                    year: year_statistical,
+                },
+                success: function (response) {
+                    if (response.TongChiTieu != null) {
+                        info_statistical.innerHTML = "<span style='color: black; font-size: 80%;'>Tổng hóa đơn của bạn trong năm " + year_statistical + " là: </span><br/><h3 class='t-bold text-center' style='color: #F26531;'>" + response.TongChiTieu + "</h3>";
+                    }
+                    else {
+                        alert("Không có giao dịch trong thời gian này.")
+                    }
+
+                }
+            });
+        }
+    </script>
+</section>
+
+

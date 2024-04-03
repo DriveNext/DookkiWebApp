@@ -1,0 +1,75 @@
+﻿@model DookkiWebApp.Models.KhachHang
+
+@{
+    ViewBag.Title = "Infomation";
+}
+
+<h3 class="text-center t-bold">Thông tin Cá Nhân</h3>
+
+<section id="signin">
+    <div class="container">
+        <input type="text" hidden value="@Model.MaKH" id="MaKH" />
+        <div class="form-group">
+            <label class="control-label">Họ tên<span>*</span></label>
+            <input class="form-control" type="text" id="HoTen" placeholder="Nhập họ tên" value="@Model.HoTen" />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Ngày sinh<span>*</span></label>
+            <input class="form-control" type="date" id="NgaySinh" placeholder="Chọn ngày" value="@String.Format("{0:yyyy-MM-dd}", @Model.NgaySinh)"/>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Số điện thoại<span>*</span></label>
+            <input class="form-control" type="text" id="SDT" value="@Model.DienThoaiKH" readonly />
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Email<span>*</span></label>
+            <input class="form-control" type="text" id="Email" value="@Model.Email" readonly />
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Giới tính<span>*</span></label>
+            <select class="form-control">
+                <option value="0">Nam</option>
+                <option value="1">Nữ</option>
+            </select>
+        </div>
+
+        <div class="form-group" style="text-align: center; margin-top: 15px; margin-bottom: 120px;">
+            <button onclick="ChangeInfor()" class="btn_signin t-bold">Cập nhật</button>
+        </div>
+    </div>
+    <div class="container noti_success" id="noti_success">
+
+    </div>
+    <script>
+        function ChangeInfor() {
+            var hoten = document.getElementById('HoTen').value;
+            var ngaysinh = document.getElementById('NgaySinh').value;
+            
+            $.ajax({
+                url: '/Account/UpdateInfor',
+                method: 'post',
+                data: {
+                    makh: @Model.MaKH,
+                    hoten: hoten,
+                    ngaysinh: ngaysinh
+                },
+                success: function (response) {
+                    if (response.Success) {
+                        document.getElementById('noti_success').innerHTML = "<div class='noti_decor text-center t-bold'><span style='color: #fff;'>Cập Nhật Thông Tin Thành Công!</span></div>";
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500);
+                    }
+                    else {
+                        alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                    }
+                    
+                }
+            });
+        }
+    </script>
+</section>
+
